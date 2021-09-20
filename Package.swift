@@ -23,6 +23,9 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "Morph-AnalysisTests",
-            dependencies: ["Morph-Analysis"]),
+            dependencies: ["Morph-Analysis"],
+            resources: [
+                .copy("Resources/test1.morphanalysis")
+            ]),
     ]
 )
