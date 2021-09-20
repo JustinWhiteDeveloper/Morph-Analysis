@@ -8,9 +8,9 @@
 import Foundation
 
 public struct MorphAnalysis: Codable {
-    var version: Int = 0
+    public var version: Int = 1
     
-    var items: [String: Double] = [:]
+    public var items: [String: Double] = [:]
     
     public init() {}
 }
