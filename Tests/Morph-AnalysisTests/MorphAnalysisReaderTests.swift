@@ -30,6 +30,6 @@ class MorphAnalysisReaderTests: XCTestCase {
         let value = reader.readFrom(sourceFolder: sourcePath,
                                     compareFileSource: compareFileSource)
         //then
-        XCTAssertEqual(value, ["Resources":1.0])
+        XCTAssertEqual(value?.items, ["Resources":1.0])
     }
 }

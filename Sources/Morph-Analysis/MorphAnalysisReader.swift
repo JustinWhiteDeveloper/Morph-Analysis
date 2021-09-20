@@ -8,7 +8,7 @@ import Foundation
 public protocol MorphAnalysisReader {
     func read(file: String) -> MorphAnalysis?
     
-    func readFrom(sourceFolder: String, compareFileSource: String) -> [String:Double]?
+    func readFrom(sourceFolder: String, compareFileSource: String) -> MorphAnalysis?
 }
 
 public class FolderMorphAnalysisReader: MorphAnalysisReader {
@@ -31,7 +31,7 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
         }
     }
     
-    public func readFrom(sourceFolder: String, compareFileSource: String) -> [String:Double]? {
+    public func readFrom(sourceFolder: String, compareFileSource: String) -> MorphAnalysis? {
         
         let missingFiles = !FileManager.default.fileExists(atPath: sourceFolder) || !FileManager.default.fileExists(atPath: compareFileSource)
         
@@ -50,14 +50,16 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
             return nil
         }
         
-        var result: [String: Double] = [:]
+        var valueMap: [String: Double] = [:]
         
         for folder in resultFolder.subFolders {
             let matchingPercentages = compareFile.averagePercentageOfMatchingItems(folder: folder)
 
-            result[folder.name] = max(0.0,matchingPercentages)
+            valueMap[folder.name] = max(0.0,matchingPercentages)
         }
         
+        var result = MorphAnalysis()
+        result.items = valueMap
         return result
     }
 }
