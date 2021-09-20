@@ -55,7 +55,7 @@ class McbReader: FileFormatReader {
     }
     
     var fileExtension: String {
-        return "mb"
+        return "mcb"
     }
 }
 

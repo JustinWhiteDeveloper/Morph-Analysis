@@ -21,7 +21,7 @@ class MorphAnalysisReaderTests: XCTestCase {
     func testMorphAnalysisReader_ReadFromBundleSource() {
         
         //given
-        let compareFileSource = Bundle.module.path(forResource: "test2", ofType: "mb")!
+        let compareFileSource = Bundle.module.path(forResource: "test2", ofType: "mcb")!
 
         let sourcePath = Bundle.module.bundlePath + "/contents"
         let reader: MorphAnalysisReader = FolderMorphAnalysisReader()
