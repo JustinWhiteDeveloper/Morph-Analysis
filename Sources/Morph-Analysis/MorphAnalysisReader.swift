@@ -15,7 +15,7 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
     
     public init() {}
     
-    func read(file: String) -> MorphAnalysis? {
+    public func read(file: String) -> MorphAnalysis? {
         
         do {
             guard let data = FileManager.default.contents(atPath: file) else {
@@ -31,7 +31,7 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
         }
     }
     
-    func readFrom(sourceFolder: String, compareFileSource: String) -> [String:Double]? {
+    public func readFrom(sourceFolder: String, compareFileSource: String) -> [String:Double]? {
         
         let missingFiles = !FileManager.default.fileExists(atPath: sourceFolder) || !FileManager.default.fileExists(atPath: compareFileSource)
         
