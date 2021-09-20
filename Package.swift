@@ -25,7 +25,9 @@ let package = Package(
             name: "Morph-AnalysisTests",
             dependencies: ["Morph-Analysis"],
             resources: [
-                .copy("Resources/test1.morphanalysis")
+                .copy("Resources/test1.morphanalysis"),
+                .copy("Resources/test2.mb")
+
             ]),
     ]
 )

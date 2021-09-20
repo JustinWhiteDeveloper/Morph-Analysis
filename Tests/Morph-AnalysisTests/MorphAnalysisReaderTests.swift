@@ -17,4 +17,19 @@ class MorphAnalysisReaderTests: XCTestCase {
         XCTAssertEqual(value?.items.count, 1)
         XCTAssertEqual(value?.items["identityTest"], 0.1)
     }
+    
+    func testMorphAnalysisReader_ReadFromBundleSource() {
+        
+        //given
+        let compareFileSource = Bundle.module.path(forResource: "test2", ofType: "mb")!
+
+        let sourcePath = Bundle.module.bundlePath + "/contents"
+        let reader: MorphAnalysisReader = FolderMorphAnalysisReader()
+        
+        //when
+        let value = reader.readFrom(sourceFolder: sourcePath,
+                                    compareFileSource: compareFileSource)
+        //then
+        XCTAssertEqual(value, ["Resources":1.0])
+    }
 }

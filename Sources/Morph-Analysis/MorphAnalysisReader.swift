@@ -5,17 +5,16 @@
 
 import Foundation
 
-struct MorphAnalysis: Codable {
-    var version: Int = 0
-    
-    var items: [String: Double]
-}
-
-protocol MorphAnalysisReader {
+public protocol MorphAnalysisReader {
     func read(file: String) -> MorphAnalysis?
+    
+    func readFrom(sourceFolder: String, compareFileSource: String) -> [String:Double]?
 }
 
-class FolderMorphAnalysisReader: MorphAnalysisReader {
+public class FolderMorphAnalysisReader: MorphAnalysisReader {
+    
+    public init() {}
+    
     func read(file: String) -> MorphAnalysis? {
         
         do {
@@ -30,5 +29,35 @@ class FolderMorphAnalysisReader: MorphAnalysisReader {
             print(error)
             return nil
         }
+    }
+    
+    func readFrom(sourceFolder: String, compareFileSource: String) -> [String:Double]? {
+        
+        let missingFiles = !FileManager.default.fileExists(atPath: sourceFolder) || !FileManager.default.fileExists(atPath: compareFileSource)
+        
+        if missingFiles {
+            return nil
+        }
+
+        let fileContainer: FileContainer = LocalFileContainer()
+        let compareFile: File = fileContainer.read(file: compareFileSource,
+                                                      reader: JapaneseFilteredMcbReader())
+
+        let folderContainer = LocalFolderContainer(reader: McbReader())
+        let resultFolder = folderContainer.read(folder: sourceFolder)
+
+        if compareFile.success == false || resultFolder.success == false {
+            return nil
+        }
+        
+        var result: [String: Double] = [:]
+        
+        for folder in resultFolder.subFolders {
+            let matchingPercentages = compareFile.averagePercentageOfMatchingItems(folder: folder)
+
+            result[folder.name] = max(0.0,matchingPercentages)
+        }
+        
+        return result
     }
 }
