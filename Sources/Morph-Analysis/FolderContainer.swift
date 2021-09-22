@@ -27,9 +27,7 @@ class LocalFolderContainer: FolderContainer {
             let paths = try FileManager.default.contentsOfDirectory(atPath: folder)
             
             let files = paths.filter({$0.pathExtension.isEmpty == false})
-            
-            result.fileCount = files.count
-            
+                        
             for file in files where file.pathExtension == reader.fileExtension {
                 let file = container.read(file: folder + "/" + file, reader: reader)
                 result.files.append(file)

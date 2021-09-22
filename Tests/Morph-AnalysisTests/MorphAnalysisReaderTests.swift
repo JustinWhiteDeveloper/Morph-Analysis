@@ -41,9 +41,9 @@ class MorphAnalysisReaderTests: XCTestCase {
         let file2 = File(name: "test2", subtitles: [], success: true)
         let compareFile = File(name: "test3", subtitles: ["ありがとう"], success: true)
 
-        let subFolder = Folder(name: "test", files: [file1,file2], fileCount: 2, success: true, subFolders: [])
+        let subFolder = Folder(name: "test", files: [file1,file2], success: true, subFolders: [])
         
-        let folder = Folder(name: "abcd", files: [], fileCount: 2, success: true, subFolders: [subFolder])
+        let folder = Folder(name: "abcd", files: [], success: true, subFolders: [subFolder])
         
         let reader = FolderMorphAnalysisReader()
         
@@ -62,9 +62,9 @@ class MorphAnalysisReaderTests: XCTestCase {
         let file2 = File(name: "test2", subtitles: [], success: true)
         let compareFile = File(name: "test3", subtitles: ["ありがとう"], success: true)
 
-        let subFolder = Folder(name: "test", files: [file1,file2], fileCount: 2, success: true, subFolders: [])
+        let subFolder = Folder(name: "test", files: [file1,file2], success: true, subFolders: [])
         
-        let folder = Folder(name: "abcd", files: [], fileCount: 2, success: true, subFolders: [subFolder])
+        let folder = Folder(name: "abcd", files: [], success: true, subFolders: [subFolder])
         
         let reader = FolderMorphAnalysisReader()
         

@@ -11,9 +11,7 @@ struct Folder {
     let name: String
     
     var files: [File] = []
-    
-    var fileCount: Int = 0
-    
+        
     var success: Bool = false
     
     var subFolders: [Folder] = []
