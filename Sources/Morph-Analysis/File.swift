@@ -67,15 +67,19 @@ extension File: FileComparable {
     
     func averagePercentageOfMatchingItems(folder: Folder) -> Double {
         
-        let folderCount = folder.files.count
+        //Total of values not including zeros (likely computation mistakes unless you know nothing then its zero anyway)
+        let totals = folder.files
+            .map({ self.percentageOfMatchingItems(file: $0)} )
+            .filter({$0 != 0})
+        
+        let folderCount = totals.count
         
         if folderCount == 0 {
             return 0.0
         }
         
-        let total = folder.files
-            .map({ self.percentageOfMatchingItems(file: $0)} ).reduce(0, +)
-        
+        let total = totals.reduce(0, +)
+    
         return total/Double(folderCount)
     }
     

@@ -46,6 +46,11 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
         let folderContainer = LocalFolderContainer(reader: McbReader())
         let resultFolder = folderContainer.read(folder: sourceFolder)
 
+        return readFrom(resultFolder: resultFolder, compareFile: compareFile)
+    }
+    
+    func readFrom(resultFolder: Folder, compareFile: File) -> MorphAnalysis? {
+        
         if compareFile.success == false || resultFolder.success == false {
             return nil
         }

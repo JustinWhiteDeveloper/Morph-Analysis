@@ -32,4 +32,46 @@ class MorphAnalysisReaderTests: XCTestCase {
         //then
         XCTAssertEqual(value?.items, ["Resources":1.0])
     }
+    
+    //If no morphs are matched its highly unlikely so don't count unless its all values are zero
+    func testMorphAnalysisReader_ZeroValuesDoNotCountTowardsTotal() {
+        
+        //given
+        let file1 = File(name: "test1", subtitles: ["ありがとう"], success: true)
+        let file2 = File(name: "test2", subtitles: [], success: true)
+        let compareFile = File(name: "test3", subtitles: ["ありがとう"], success: true)
+
+        let subFolder = Folder(name: "test", files: [file1,file2], fileCount: 2, success: true, subFolders: [])
+        
+        let folder = Folder(name: "abcd", files: [], fileCount: 2, success: true, subFolders: [subFolder])
+        
+        let reader = FolderMorphAnalysisReader()
+        
+        //when
+        let value = reader.readFrom(resultFolder: folder, compareFile: compareFile)
+        
+        //then
+        XCTAssertEqual(value?.items, ["test":1.0])
+    }
+    
+    //If no morphs are matched its highly unlikely so don't count unless its all values are zero
+    func testMorphAnalysisReader_AllZeroValuesInTotal() {
+        
+        //given
+        let file1 = File(name: "test1", subtitles: [], success: true)
+        let file2 = File(name: "test2", subtitles: [], success: true)
+        let compareFile = File(name: "test3", subtitles: ["ありがとう"], success: true)
+
+        let subFolder = Folder(name: "test", files: [file1,file2], fileCount: 2, success: true, subFolders: [])
+        
+        let folder = Folder(name: "abcd", files: [], fileCount: 2, success: true, subFolders: [subFolder])
+        
+        let reader = FolderMorphAnalysisReader()
+        
+        //when
+        let value = reader.readFrom(resultFolder: folder, compareFile: compareFile)
+        
+        //then
+        XCTAssertEqual(value?.items, ["test":0.0])
+    }
 }
