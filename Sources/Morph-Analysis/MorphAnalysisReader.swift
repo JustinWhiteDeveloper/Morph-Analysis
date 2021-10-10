@@ -9,6 +9,8 @@ public protocol MorphAnalysisReader {
     func read(file: String) -> MorphAnalysis?
     
     func readFrom(sourceFolder: String, compareFileSource: String) -> MorphAnalysis?
+    
+    func from(folders: [MorphFolder], compareFileSource: String) -> MorphAnalysis?
 }
 
 public class FolderMorphAnalysisReader: MorphAnalysisReader {
@@ -61,6 +63,29 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
             let matchingPercentages = compareFile.averagePercentageOfMatchingItems(folder: folder)
 
             valueMap[folder.name] = max(0.0,matchingPercentages)
+        }
+        
+        var result = MorphAnalysis()
+        result.items = valueMap
+        return result
+    }
+    
+    public func from(folders: [MorphFolder], compareFileSource: String) -> MorphAnalysis? {
+        
+        let missingFile = !FileManager.default.fileExists(atPath: compareFileSource)
+        
+        if missingFile {
+            return nil
+        }
+
+        let fileContainer: FileContainer = LocalFileContainer()
+        let compareFile: File = fileContainer.read(file: compareFileSource,
+                                                      reader: JapaneseFilteredMcbReader())
+        
+        var valueMap: [String: Double] = [:]
+        
+        for folder in folders {
+            valueMap[folder.show] = folder.score(usingKnownValues: compareFile.subtitles)
         }
         
         var result = MorphAnalysis()

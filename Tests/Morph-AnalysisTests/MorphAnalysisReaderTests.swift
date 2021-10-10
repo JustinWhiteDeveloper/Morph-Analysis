@@ -74,4 +74,25 @@ class MorphAnalysisReaderTests: XCTestCase {
         //then
         XCTAssertEqual(value?.items, ["test":0.0])
     }
+    
+    func testMorphAnalysisReader_AnalysisFromMorphFolders() {
+        
+        //given
+        let filePath = Bundle.module.path(forResource: "test2", ofType: "mcb")!
+        
+        let morphFolder = MorphFolder(morphsAndPoints: ["こんにちは":2,"c":2],
+                                      points: 4,
+                                      show: "test9")
+        
+        //when
+        let reader = FolderMorphAnalysisReader()
+
+        guard let value = reader.from(folders: [morphFolder], compareFileSource: filePath) else {
+            XCTFail("Unable to find files")
+            return
+        }
+
+        //then
+        XCTAssertEqual(value.items, ["test9":0.5])
+    }
 }
