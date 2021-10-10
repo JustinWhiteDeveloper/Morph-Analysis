@@ -100,4 +100,24 @@ class MorphFolderTests: XCTestCase {
         XCTAssertEqual("天", morphFolder.show)
         XCTAssertEqual("0.00048", String(format:"%.5f",points))
     }
+    
+    func testMorphFolderFromReadFolderSource() throws {
+        
+        //given
+        guard let folderPath = Bundle.module.resourcePath else {
+            XCTFail("Unable to find file")
+            return
+        }
+        
+        let folderReader = LocalMorphFolderReader()
+    
+        //when
+        let morphFolder = folderReader.readFilesFromFolder(folder: folderPath)
+                
+        //then
+        XCTAssertEqual(1, morphFolder.count)
+        XCTAssertEqual(morphFolder[0].morphsAndPoints.count, 2592)
+        XCTAssertEqual(morphFolder[0].points, 6248)
+        XCTAssertEqual(morphFolder[0].version, 1)
+    }
 }

@@ -95,10 +95,11 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
     
     public func from(folderSource: String, compareFileSource: String) -> MorphAnalysis? {
         
-        let folderContainer = LocalFolderContainer()
-        let folder = folderContainer.read(folder: folderSource)
-    
-        let morphFolders = folder.subFolders.map({LocalMorphFolderReader().read(folder: $0)})
+        //TODO: - refactor to break dependency cross-over between classes
+        
+        let reader = LocalMorphFolderReader()
+
+        let morphFolders = reader.readFilesFromFolder(folder: folderSource)
         
         return from(folders: morphFolders, compareFileSource: compareFileSource)
     }
