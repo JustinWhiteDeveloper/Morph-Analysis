@@ -15,7 +15,7 @@ class MorphFolderTests: XCTestCase {
         let morphFolder = MorphFolder(morphsAndPoints: ["a":2], points: 2, show: "test")
         
         //when
-        let points = morphFolder.score(usingKnownValues: ["a"])
+        let points = morphFolder.score(knownValues: ["a"])
         
         //then
         XCTAssertEqual(1, points)
@@ -26,7 +26,7 @@ class MorphFolderTests: XCTestCase {
         let morphFolder = MorphFolder(morphsAndPoints: ["a":2,"b":2,"c":2,"d":2], points: 8, show: "test2")
         
         //when
-        let points = morphFolder.score(usingKnownValues: ["a","d"])
+        let points = morphFolder.score(knownValues: ["a","d"])
         
         //then
         XCTAssertEqual(0.5, points)
@@ -37,7 +37,7 @@ class MorphFolderTests: XCTestCase {
         let morphFolder = MorphFolder(morphsAndPoints: ["a":2,"c":2,"d":2], points: 6, show: "test3")
         
         //when
-        let points = morphFolder.score(usingKnownValues: ["c"])
+        let points = morphFolder.score(knownValues: ["c"])
         
         //then
         XCTAssertEqual("0.33", String(format:"%.2f", points))
@@ -48,7 +48,7 @@ class MorphFolderTests: XCTestCase {
         let morphFolder = MorphFolder(morphsAndPoints: ["a":2,"c":2,"d":2], points: 6, show: "test4")
         
         //when
-        let points = morphFolder.score(usingKnownValues: [])
+        let points = morphFolder.score(knownValues: [])
         
         //then
         XCTAssertEqual(0, points)
@@ -60,7 +60,7 @@ class MorphFolderTests: XCTestCase {
         let morphFolder = MorphFolder(morphsAndPoints: [:], points: 0, show: "test5")
         
         //when
-        let points = morphFolder.score(usingKnownValues: [])
+        let points = morphFolder.score(knownValues: [])
         
         //then
         XCTAssertEqual(0, points)
@@ -93,7 +93,7 @@ class MorphFolderTests: XCTestCase {
             return
         }
         
-        let points = morphFolder.score(usingKnownValues: compareList)
+        let points = morphFolder.score(knownValues: compareList)
         
         //then
         XCTAssertEqual(1, morphFolder.version)
@@ -116,8 +116,8 @@ class MorphFolderTests: XCTestCase {
                 
         //then
         XCTAssertEqual(1, morphFolder.count)
-        XCTAssertEqual(morphFolder[0].morphsAndPoints.count, 2592)
-        XCTAssertEqual(morphFolder[0].points, 6248)
-        XCTAssertEqual(morphFolder[0].version, 1)
+        XCTAssertEqual(2592, morphFolder[0].morphsAndPoints.count)
+        XCTAssertEqual(6248,morphFolder[0].points)
+        XCTAssertEqual(1, morphFolder[0].version)
     }
 }

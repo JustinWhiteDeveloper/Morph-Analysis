@@ -59,7 +59,7 @@ class LocalMorphFolderReader: MorphFolderReader {
         do {
             let paths = try FileManager.default.contentsOfDirectory(atPath: folder)
             
-            let files = paths.filter({$0.pathExtension.isEmpty == false})
+            let files = paths.filter({ $0.pathExtension.isEmpty == false })
                         
             for file in files where file.pathExtension == "che" {
                 if let folder = read(file: folder + "/" + file) {

@@ -16,15 +16,52 @@ public struct MorphFolder: Codable {
     
     public var version: Int = 1
     
-    public func score(usingKnownValues knownValues: [String]) -> Double {
+    public func score(knownValues: [String], scoreGenerator: ScoreGenerator = OptimizedScoreGenerator()) -> Double {
+        return scoreGenerator.score(folder: self, knownValues: knownValues)
+    }
+}
+
+public protocol ScoreGenerator {
+    func score(folder: MorphFolder, knownValues: [String]) -> Double
+}
+    
+public class BasicScoreGenerator: ScoreGenerator {
+    
+    public init() {
+    }
+    
+    public func score(folder: MorphFolder, knownValues: [String]) -> Double {
         
-        if points == 0 {
+        if folder.points == 0 {
             return 0.0
         }
         
-        let crossOver = morphsAndPoints.filter({ knownValues.contains($0.key) })
+        let crossOver = folder.morphsAndPoints.filter({ knownValues.contains($0.key) })
         let pointsKnown: Double = Double(crossOver.map({$0.value}).reduce(0, +))
         
-        return pointsKnown / Double(points)
+        return pointsKnown / Double(folder.points)
+    }
+}
+
+
+public class OptimizedScoreGenerator: ScoreGenerator {
+    
+    public init() {
+    }
+    
+    public func score(folder: MorphFolder, knownValues: [String]) -> Double {
+        if folder.points == 0 {
+            return 0.0
+        }
+        
+        var points: Int = 0
+        
+        for value in knownValues {
+            if let item = folder.morphsAndPoints[value] {
+                points += item
+            }
+        }
+        
+        return Double(points)/Double(folder.points)
     }
 }

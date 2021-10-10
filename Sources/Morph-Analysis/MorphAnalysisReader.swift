@@ -85,7 +85,7 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
         var valueMap: [String: Double] = [:]
         
         for folder in folders {
-            valueMap[folder.show] = folder.score(usingKnownValues: compareFile.subtitles)
+            valueMap[folder.show] = folder.score(knownValues: compareFile.subtitles)
         }
         
         var result = MorphAnalysis()
