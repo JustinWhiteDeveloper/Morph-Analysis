@@ -70,6 +70,7 @@ class LocalMorphFolderReader: MorphFolderReader {
             return result
         }
         catch {
+            print(error)
             return []
         }
     }
