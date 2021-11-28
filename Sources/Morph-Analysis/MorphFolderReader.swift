@@ -7,6 +7,10 @@
 
 import Foundation
 
+private enum Constants {
+    static let cachedFileExtension = "che"
+}
+
 protocol MorphFolderReader {
     func read(folder: Folder) -> MorphFolder
 
@@ -61,7 +65,7 @@ class LocalMorphFolderReader: MorphFolderReader {
             
             let files = paths.filter({ $0.pathExtension.isEmpty == false })
                         
-            for file in files where file.pathExtension == "che" {
+            for file in files where file.pathExtension == Constants.cachedFileExtension {
                 if let folder = read(file: folder + "/" + file) {
                     result.append(folder)
                 }

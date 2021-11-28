@@ -78,14 +78,12 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
             return nil
         }
 
-        let fileContainer: FileContainer = LocalFileContainer()
-        let compareFile: File = fileContainer.read(file: compareFileSource,
-                                                      reader: JapaneseFilteredMcbReader())
+        let morphs = knownMorphs(from: compareFileSource)
         
         var valueMap: [String: Double] = [:]
         
         for folder in folders {
-            valueMap[folder.show] = folder.score(knownValues: compareFile.subtitles)
+            valueMap[folder.show] = folder.score(knownValues: morphs)
         }
         
         var result = MorphAnalysis()
@@ -102,5 +100,14 @@ public class FolderMorphAnalysisReader: MorphAnalysisReader {
         let morphFolders = reader.readFilesFromFolder(folder: folderSource)
         
         return from(folders: morphFolders, compareFileSource: compareFileSource)
+    }
+    
+    
+    public func knownMorphs(from compareFileSource: String) -> [String] {
+        let fileContainer: FileContainer = LocalFileContainer()
+        let compareFile: File = fileContainer.read(file: compareFileSource,
+                                                      reader: JapaneseFilteredMcbReader())
+        
+        return compareFile.subtitles
     }
 }
